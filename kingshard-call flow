@@ -1,3 +1,5 @@
+the call flow of use db in the code:
+
 backend/db.go:
 func (db *DB) tryReuse(co *Conn) error {
 		_, err = co.exec("set autocommit = 1")
