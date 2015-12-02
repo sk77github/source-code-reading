@@ -16,6 +16,13 @@ func (db *DB) tryReuse(co *Conn) error {
             func (c *Conn) writePacket(data []byte) error {
             	err := c.pkg.WritePacket(data)
             }
+                func (c *Conn) ReConnect() error {
+			tcpConn := netConn.(*net.TCPConn)
+			tcpConn.SetNoDelay(false)
+			tcpConn.SetKeepAlive(true)
+			c.conn = tcpConn
+			c.pkg = mysql.NewPacketIO(tcpConn)
+		}
                 
                 mysql/packetio.go:
                 func (p *PacketIO) WritePacket(data []byte) error {
