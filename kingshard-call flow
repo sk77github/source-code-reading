@@ -1,0 +1,47 @@
+backend/db.go:
+func (db *DB) tryReuse(co *Conn) error {
+		_, err = co.exec("set autocommit = 1")
+		
+		backend/backend_conn.go:
+		func (c *Conn) exec(query string) (*mysql.Result, error) {
+    	if err := c.writeCommandStr(mysql.COM_QUERY, query); err != nil {
+	  	 return nil, err
+	    }
+
+	    return c.readResult(false)
+     }
+     
+        func (c *Conn) writeCommandStr(command byte, arg string) error {
+        	return c.writePacket(data)
+        }
+            func (c *Conn) writePacket(data []byte) error {
+            	err := c.pkg.WritePacket(data)
+            }
+                mysql/packetio.go:
+                func (p *PacketIO) WritePacket(data []byte) error {
+                	for length >= MaxPayloadLen {
+                		if n, err := p.wb.Write(data[:4+MaxPayloadLen]); err != nil {
+                			data = data[MaxPayloadLen:]
+                	if n, err := p.wb.Write(data); err != nil 
+                }
+                    type PacketIO struct {
+                        	rb *bufio.Reader
+                        	wb io.Writer
+                        	Sequence uint8
+                    }
+                    func NewPacketIO(conn net.Conn) *PacketIO {
+                      	p := new(PacketIO)
+                      	p.rb = bufio.NewReaderSize(conn, 1024)
+                      	p.wb = conn
+                    }
+                    ./proxy/server/server.go:       c.pkg = mysql.NewPacketIO(tcpConn)
+                    ./backend/backend_conn.go:      c.pkg = mysql.NewPacketIO(tcpConn)
+                    ./mysql/packetio.go:func NewPacketIO(conn net.Conn) *PacketIO {
+                        
+        
+        func (c *Conn) readResult(binary bool) (*mysql.Result, error) {
+        	data, err := c.readPacket()
+        	return c.readResultset(data, binary)
+        }
+        
+        
