@@ -1,0 +1,14 @@
+proxy/server/conn_query.go:
+c.handleSelect(v, nil)
+    proxy/server/conn_select.go:
+    func (c *ClientConn) handleSelect(stmt *sqlparser.Select, args []interface{}) error {
+        plan, err := c.schema.rule.BuildPlan(stmt)
+            proxy/router/router.go:
+            func (r *Router) buildSelectPlan(statement sqlparser.Statement) (*Plan, error) {
+        conns, err := c.getShardConns(fromSlave, plan)
+            proxy/server/conn_query.go:
+            func (c *ClientConn) getShardConns(fromSlave bool, plan *router.Plan) (map[string]*backend.BackendConn, error) {
+        rs, err = c.executeInMultiNodes(conns, plan.RewrittenSqls, args)
+            proxy/server/conn_query.go:
+            func (c *ClientConn) executeInMultiNodes(conns map[string]*backend.BackendConn, sqls map[string][]string, args []interface{}) ([]*mysql.Result, error) {
+            
