@@ -4,4 +4,10 @@ nodes
 node
 table
 where sharding key
+
+kingshard的sharding采用了两级映射的思想，首选根据SQL语句的分表条件计算出这条SQL语句落在哪个子表上，
+然后再根据配置信息找到该子表 落在哪个node上。
+采用两级映射的思想，对于MySQL的扩容和缩容都能很方便地支持。
+目前kingshard sharding支持insert, delete, select, update和replace语句, 所有这五类操作都支持跨子表。
+但写操作仅支持单node上的跨子表，select操作则可以跨node，跨子表。
   
