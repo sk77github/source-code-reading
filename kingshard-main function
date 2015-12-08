@@ -1,3 +1,16 @@
+cmd/kingshard/main.go:
+cfg, err := config.ParseConfigFile(*configFile)
+var svr *server.Server
+svr, err = server.NewServer(cfg)
+svr.Run()
+
+    proxy/router/router.go：
+    func NewRouter(schemaConfig *config.SchemaConfig) (*Router, error) {
+
+
+
+
+
 ./proxy/server/server.go:       c.pkg = mysql.NewPacketIO(tcpConn)
 ./backend/backend_conn.go:      c.pkg = mysql.NewPacketIO(tcpConn)
 ./mysql/packetio.go:func NewPacketIO(conn net.Conn) *PacketIO {
