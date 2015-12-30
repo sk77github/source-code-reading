@@ -12,3 +12,10 @@
 则会丢失数据。而Kafka的这种使用“in sync” list的方式则很好的均衡了确保数据不丢失以及吞吐率。
 follower可以批量的从leader复制数据，这样极大的提高复制性能（批量写磁盘），
 极大减少了follower与leader的差距（前文有说到，只要follower落后leader不太远，则被认为在“in sync” list里）。
+
+上文说明了Kafka是如何做replication的，另外一个很重要的问题是当leader宕机了，
+怎样在follower中选举出新的leader。因为follower可能落后许多或者crash了，
+所以必须确保选择“最新”的follower作为新的leader。一个基本的原则就是，如果leader不在了，
+新的leader必须拥有原来的leader commit的所有消息。这就需要作一个折衷，
+如果leader在标明一条消息被commit前等待更多的follower确认，那在它die之后就有更多的follower可以作为新的leader，
+但这也会造成吞吐率的下降。
