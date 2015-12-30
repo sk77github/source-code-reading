@@ -19,3 +19,11 @@ follower可以批量的从leader复制数据，这样极大的提高复制性能
 新的leader必须拥有原来的leader commit的所有消息。这就需要作一个折衷，
 如果leader在标明一条消息被commit前等待更多的follower确认，那在它die之后就有更多的follower可以作为新的leader，
 但这也会造成吞吐率的下降。
+
+
+A message is considered “committed” when all in sync replicas for that partition have applied it to their log.
+Only committed messages are ever given out to the consumer.
+This means that the consumer need not worry about potentially seeing a message that could be lost if the leader fails. 
+Producers, on the other hand, have the option of either waiting for the message to be committed or not,
+depending on their preference for tradeoff between latency and durability. 
+This preference is controlled by the request.required.acks setting that the producer uses.
