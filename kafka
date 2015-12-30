@@ -1,3 +1,18 @@
+Kafka is a distributed, partitioned, replicated “commit log service”.
+
+A message is considered “committed” when all in sync replicas for that partition have applied it to their log.
+Only committed messages are ever given out to the consumer.
+This means that the consumer need not worry about potentially seeing a message that could be lost if the leader fails. 
+Producers, on the other hand, have the option of either waiting for the message to be committed or not,
+depending on their preference for tradeoff between latency and durability. 
+This preference is controlled by the request.required.acks setting that the producer uses.
+
+Kafka是一个基于副本的高可靠的消息系统，在消息可用前，Kafka保证消息已经提交到足够的副本中（这个在min.insync.replicas中配置），
+这种逻辑类似于Zookeeper的写操作(Leader写，然后指定个数的Follower完成同步）。
+Kafka不同于Zookeeper，Zookeeper是可以在网络发生分区后，能够继续工作
+
+
+
 复制：
 
 一条消息只有被“in sync” list里的所有follower都从leader复制过去才会被认为已提交。
@@ -21,9 +36,3 @@ follower可以批量的从leader复制数据，这样极大的提高复制性能
 但这也会造成吞吐率的下降。
 
 
-A message is considered “committed” when all in sync replicas for that partition have applied it to their log.
-Only committed messages are ever given out to the consumer.
-This means that the consumer need not worry about potentially seeing a message that could be lost if the leader fails. 
-Producers, on the other hand, have the option of either waiting for the message to be committed or not,
-depending on their preference for tradeoff between latency and durability. 
-This preference is controlled by the request.required.acks setting that the producer uses.
