@@ -75,6 +75,13 @@ offset：
 使用者可用故意回退（rewind）到以前的偏移量处，再次使用一遍以前使用过的数据。
 
 
+consumer:
+
+If all the consumer instances have the same consumer group, then this works just like a traditional queue balancing load over the consumers.
+
+If all the consumer instances have different consumer groups, then this works like publish-subscribe and all messages are broadcast to all consumers.
+
+
 
 使用特点：
 显然，这是一个集群的发布/订阅系统，有如下几个特点
