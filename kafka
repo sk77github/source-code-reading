@@ -88,6 +88,14 @@ Per-partition ordering combined with the ability to partition data by key is suf
 However, if you require a total order over messages this can be achieved with a topic that has only one partition,
 though this will mean only one consumer process per consumer group.
 
+By having a notion of parallelism—the partition—within the topics,
+Kafka is able to provide both ordering guarantees and load balancing over a pool of consumer processes.
+This is achieved by assigning the partitions in the topic to the consumers in the consumer group
+so that each partition is consumed by exactly one consumer in the group.
+By doing this we ensure that the consumer is the only reader of that partition and consumes the data in order. 
+Since there are many partitions this still balances the load over many consumer instances.
+Note however that there cannot be more consumer instances in a consumer group than partitions.
+
 
 使用特点：
 显然，这是一个集群的发布/订阅系统，有如下几个特点
