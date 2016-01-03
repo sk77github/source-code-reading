@@ -77,6 +77,8 @@ offset：
 
 consumer:
 
+Messaging traditionally has two models: queuing and publish-subscribe. 
+
 If all the consumer instances have the same consumer group, then this works just like a traditional queue balancing load over the consumers.
 
 If all the consumer instances have different consumer groups, then this works like publish-subscribe and all messages are broadcast to all consumers.
