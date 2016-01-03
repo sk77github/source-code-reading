@@ -81,6 +81,10 @@ If all the consumer instances have the same consumer group, then this works just
 
 If all the consumer instances have different consumer groups, then this works like publish-subscribe and all messages are broadcast to all consumers.
 
+Kafka only provides a total order over messages within a partition, not between different partitions in a topic.
+Per-partition ordering combined with the ability to partition data by key is sufficient for most applications.
+However, if you require a total order over messages this can be achieved with a topic that has only one partition,
+though this will mean only one consumer process per consumer group.
 
 
 使用特点：
